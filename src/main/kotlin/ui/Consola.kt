@@ -2,52 +2,56 @@ package org.example.ui
 
 import java.util.*
 
-class Consola {
+class Consola : IEntradaSalida {
 
     private val scanner = Scanner(System.`in`)
 
-    fun pedirInfo(mensaje: String): String {
-        print(mensaje)
+    override fun pedirInfo(mensaje: String): String {
+        mostrar(mensaje)
         return scanner.nextLine()
     }
 
-    fun mostrar(mensaje: String) {
+    override fun mostrar(mensaje: String) {
         println(mensaje)
     }
 
-    fun mostrarError(error: String) {
+    override fun mostrarError(error: String) {
         System.err.println("ERROR: $error")
     }
 
-    fun pedirDouble(prompt: String): Double {
+    override fun pedirDouble(prompt: String): Double {
         while (true) {
-            print(prompt)
+            mostrar(prompt)
             val entrada = readlnOrNull()
             try {
                 return entrada?.toDouble() ?: throw NumberFormatException()
             } catch (e: NumberFormatException) {
-                println("ERROR: El número introducido no es válido.")
+                mostrarError("ERROR: El número introducido no es válido.")
             }
         }
     }
 
-    fun pedirEntero(prompt: String): Int {
+    override fun pedirEntero(prompt: String): Int {
         while (true) {
             print(prompt)
             val entrada = readlnOrNull()
             try {
                 return entrada?.toInt() ?: throw NumberFormatException()
             } catch (e: NumberFormatException) {
-                println("ERROR: El número introducido no es un entero.")
+                mostrarError("ERROR: El número introducido no es un entero.")
             } catch (e: Exception) {
-                println("ERROR: Entrada no válida.")
+                mostrarError("ERROR: Entrada no válida.")
             }
         }
     }
 
-    fun pedirChar(mensaje: String): Char {
+    override fun pedirChar(mensaje: String): Char {
         return pedirInfo(mensaje).firstOrNull() ?: ' '
     }
 
+    override fun preguntarSiNo(mensaje: String): Boolean {
+        val respuesta = pedirInfo(mensaje)
+        return respuesta.equals("S", ignoreCase = true)
+    }
 
 }

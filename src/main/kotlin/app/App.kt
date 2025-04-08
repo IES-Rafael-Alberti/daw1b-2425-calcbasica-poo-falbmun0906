@@ -22,8 +22,7 @@ class App(val consola: Consola) {
                 consola.mostrar("Resultado: $resultado")
             }
 
-            val respuesta = consola.pedirInfo("¿Desea realizar otro cálculo? (S/N): ")
-            continuar = respuesta.equals("S", ignoreCase = true)
+            continuar = consola.preguntarSiNo("¿Desea realizar otro cálculo? (S/N): ")
         }
 
         consola.mostrar("Saliendo...")
